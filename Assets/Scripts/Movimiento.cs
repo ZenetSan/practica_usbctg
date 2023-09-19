@@ -18,7 +18,9 @@ public class Movimiento : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        if(GameManager.activado == false) return;
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {   
