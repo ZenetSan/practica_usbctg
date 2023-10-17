@@ -5,9 +5,9 @@ using UnityEngine;
 public class Movimiento_npc : MonoBehaviour
 {
     private CharacterController controller;
-    private Vector3 playerVelocityInitial;
     private Vector3 playerVelocity;
     public bool groundedPlayer;
+    public float gravityValue = -9.81f;
     public float playerSpeed = 20.0f;
     public float horizontal = 1f;
 
@@ -20,14 +20,28 @@ public class Movimiento_npc : MonoBehaviour
     {   
         if(GameManager.activado == false) return;
 
+        Vector3 promedio = new Vector3(0,0,0);
+        
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {   
-            horizontal = horizontal*-1;
+            gravityValue = -9.81f;
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(horizontal, 0, /*Input.GetAxis("Vertical")*/0);
+        Vector3 move = new Vector3(horizontal, 0, 0);
         controller.Move(move * Time.deltaTime * playerSpeed);
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        promedio.y = playerVelocity.y + (playerVelocity.y + gravityValue * Time.deltaTime) ;
+        
+        controller.Move(promedio * Time.deltaTime);
+    }
+
+    public void OnControllerColliderHit(ControllerColliderHit hit) {
+        Debug.Log("Colosiono");
+        if(hit.gameObject.name != "suelo (1)"&&hit.gameObject.name != "suelo (2)"&&hit.gameObject.name != "suelo (3)"&&hit.gameObject.name != "suelo (4)"&&hit.gameObject.name != "Cube (3)"){
+            horizontal = horizontal*-1;
+        }
     }
 }

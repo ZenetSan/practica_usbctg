@@ -9,7 +9,7 @@ public class Movimiento : MonoBehaviour
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     public float playerSpeed = 20.0f;
-    public float jumpHeight = 1.0f;
+    public float jumpHeight = 1.3f;
     public float gravityValue = -9.81f;
 
     private void Start()
@@ -49,5 +49,11 @@ public class Movimiento : MonoBehaviour
 
 
         controller.Move(promedio * Time.deltaTime);
+    }
+
+    public void OnControllerColliderHit(ControllerColliderHit hit) {
+        if(hit.gameObject.FindWithTag = "enemigo"){
+            horizontal = horizontal*-1;
+        }
     }
 }
