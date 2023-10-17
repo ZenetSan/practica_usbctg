@@ -28,13 +28,11 @@ public class Movimiento : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, /*Input.GetAxis("Vertical")*/0);
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         controller.Move(move * Time.deltaTime * playerSpeed);
       
-        // Changes the height position of the player..
-        if (Input.GetButton("Jump") && groundedPlayer)
-        {
-            playerVelocity.y +=  Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);;
+        if (Input.GetButton("Jump") && groundedPlayer){
+            playerVelocity.y +=  Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
 
         if (Input.GetButtonUp("Jump")){
@@ -42,18 +40,22 @@ public class Movimiento : MonoBehaviour
         }
 
         Vector3 promedio = new Vector3(0,0,0);
-        promedio.y = playerVelocity.y + ( playerVelocity.y + gravityValue * Time.deltaTime) ;
+        promedio.y = playerVelocity.y + ( playerVelocity.y + gravityValue * Time.deltaTime);
 
         playerVelocity.y += gravityValue * Time.deltaTime;
 
 
-
         controller.Move(promedio * Time.deltaTime);
+
+        if(transform.position.y <= -5){
+            transform.position = new Vector3(-47.5f, 0.75f, -24.5f);
+        }
     }
 
-    public void OnControllerColliderHit(ControllerColliderHit hit) {
-        if(hit.gameObject.FindWithTag = "enemigo"){
-            horizontal = horizontal*-1;
+    public void OnControllerColliderHit(ControllerColliderHit hit){
+        if(hit.gameObject.tag == "enemigo"){
+            Debug.Log("Jugador toco enemigo");
+            transform.position = new Vector3(-47.5f, 0.75f, -24.5f);
         }
     }
 }

@@ -39,8 +39,7 @@ public class Movimiento_npc : MonoBehaviour
     }
 
     public void OnControllerColliderHit(ControllerColliderHit hit) {
-        Debug.Log("Colosiono");
-        if(hit.gameObject.name != "suelo (1)"&&hit.gameObject.name != "suelo (2)"&&hit.gameObject.name != "suelo (3)"&&hit.gameObject.name != "suelo (4)"&&hit.gameObject.name != "Cube (3)"){
+        if(hit.gameObject.tag != "suelo"/*&&hit.gameObject.tag != "Player"*/){
             horizontal = horizontal*-1;
         }
     }
