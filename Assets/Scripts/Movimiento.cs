@@ -21,6 +21,17 @@ public class Movimiento : MonoBehaviour
     {   
         if(GameManager.activado == false) return;
 
+        RaycastHit hit;
+        
+        if (Physics.Raycast(transform.position, new Vector3(1, 0, 0), out hit, 1)||Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out hit, 1)||Physics.Raycast(transform.position, new Vector3(0, 1, 0), out hit, 1))
+        {
+            if(hit.collider.CompareTag("enemigo")){
+                controller.enabled = false;
+                transform.position = new Vector3(-47.5f, 0.75f, -24.5f);
+                controller.enabled = true;
+            }
+        }
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {   
@@ -48,13 +59,6 @@ public class Movimiento : MonoBehaviour
         controller.Move(promedio * Time.deltaTime);
 
         if(transform.position.y <= -5){
-            transform.position = new Vector3(-47.5f, 0.75f, -24.5f);
-        }
-    }
-
-    public void OnControllerColliderHit(ControllerColliderHit hit){
-        if(hit.gameObject.tag == "enemigo"){
-            Debug.Log("Jugador toco enemigo");
             transform.position = new Vector3(-47.5f, 0.75f, -24.5f);
         }
     }

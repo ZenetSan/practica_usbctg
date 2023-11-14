@@ -20,6 +20,16 @@ public class Movimiento_npc : MonoBehaviour
     {   
         if(GameManager.activado == false) return;
 
+        RaycastHit hit;
+        
+        if (Physics.Raycast(transform.position, new Vector3(0, 1, 0), out hit, 1))
+        {
+            if(hit.collider.CompareTag("Player")){
+                controller.enabled = false;
+                transform.position = new Vector3(0, 0, 0);
+            }
+        }
+
         Vector3 promedio = new Vector3(0,0,0);
         
         groundedPlayer = controller.isGrounded;
@@ -36,10 +46,15 @@ public class Movimiento_npc : MonoBehaviour
         promedio.y = playerVelocity.y + (playerVelocity.y + gravityValue * Time.deltaTime) ;
         
         controller.Move(promedio * Time.deltaTime);
+
+        if(transform.position.y <= -5){
+            controller.enabled = false;
+            transform.position = new Vector3(0, 0, 0);
+        }
     }
 
     public void OnControllerColliderHit(ControllerColliderHit hit) {
-        if(hit.gameObject.tag != "suelo"/*&&hit.gameObject.tag != "Player"*/){
+        if(hit.gameObject.tag != "suelo"){
             horizontal = horizontal*-1;
         }
     }
